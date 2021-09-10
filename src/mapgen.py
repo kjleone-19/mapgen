@@ -1,13 +1,14 @@
 #!/usr/bin/env python
 #coding:utf-8
 
+# Adding Comment for Assignment I0 (COMS 4156)
+
 # Clustering for images for cloud to map
 # Thoughts.
 # 1) Re-run kmeans for all pixels in the "Land" section to get some mountains/terrain
 # 2) For any small clusters (up to 10 pixels) just make them into the surrounding cluster value
 # 3) Add a map border
 # 4) Add styles instead of just pixel values (how?)
-
 
 import sys
 import numpy as np
@@ -16,7 +17,6 @@ import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 from sklearn import metrics
 from scipy import signal as sig
-
 
 soften_edges = False
 
