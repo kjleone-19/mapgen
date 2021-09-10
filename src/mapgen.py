@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 #coding:utf-8
 
+# Adding Comment for Assignment I0 (COMS 4156)
+
 # Clustering for images for cloud to map
 # Thoughts.
 # 1) Re-run kmeans for all pixels in the "Land" section to get some mountains/terrain
@@ -8,74 +10,15 @@
 # 3) Add a map border
 # 4) Add styles instead of just pixel values (how?)
 
-
 import sys
 import numpy as np
 import math
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
-from sklearn.cluster import DBSCAN
 from sklearn import metrics
 from scipy import signal as sig
 
-
 soften_edges = False
-run_dbscan = False
-
-def dbscan():
-    # In case the code is run with or without a parameter, cover these two
-    in_img = plt.imread(sys.argv[1])[:,:,:3]
-
-    # Reshape the input image to allow it to run through kmeans
-    img = np.reshape(in_img,(len(in_img)*len(in_img[0]),len(in_img[0][0])))
-    # Compute DBSCAN
-    db = DBSCAN(eps=0.3, min_samples=10).fit(img)
-    core_samples_mask = np.zeros_like(db.labels_, dtype=bool)
-    core_samples_mask[db.core_sample_indices_] = True
-    labels = db.labels_
-
-    # Number of clusters in labels, ignoring noise if present.
-    n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0)
-    n_noise_ = list(labels).count(-1)
-
-    print(np.amax(labels))
-
-    #print('Estimated number of clusters: %d' % n_clusters_)
-    #print('Estimated number of noise points: %d' % n_noise_)
-    #print("Homogeneity: %0.3f" % metrics.homogeneity_score(labels_true, labels))
-    #print("Completeness: %0.3f" % metrics.completeness_score(labels_true, labels))
-    #print("V-measure: %0.3f" % metrics.v_measure_score(labels_true, labels))
-    #print("Adjusted Rand Index: %0.3f"
-        #% metrics.adjusted_rand_score(labels_true, labels))
-    #print("Adjusted Mutual Information: %0.3f"
-        #% metrics.adjusted_mutual_info_score(labels_true, labels))
-    #print("Silhouette Coefficient: %0.3f"
-        #% metrics.silhouette_score(X, labels))
-
-    # #############################################################################
-    # Plot result
-
-    # Black removed and is used for noise instead.
-    unique_labels = set(labels)
-    colors = [plt.cm.Spectral(each)
-            for each in np.linspace(0, 1, len(unique_labels))]
-    for k, col in zip(unique_labels, colors):
-        if k == -1:
-            # Black used for noise.
-            col = [0, 0, 0, 1]
-
-        class_member_mask = (labels == k)
-
-        xy = img[class_member_mask & core_samples_mask]
-        plt.plot(xy[:, 0], xy[:, 1], 'o', markerfacecolor=tuple(col),
-                markeredgecolor='k', markersize=14)
-
-        xy = img[class_member_mask & ~core_samples_mask]
-        plt.plot(xy[:, 0], xy[:, 1], 'o', markerfacecolor=tuple(col),
-                markeredgecolor='k', markersize=6)
-
-    plt.title('Estimated number of clusters: %d' % n_clusters_)
-    plt.show()
 
 def kmeans():
     new_color = [[162/255,197/255,220/255],[140/255,197/255,220/255],[0.337,0.596,0.345]]
@@ -143,9 +86,5 @@ def kmeans():
     plt.show()
 
 if __name__ == '__main__':
-    if run_dbscan == True:
-        print('dbscanning')
-        dbscan()
-    else:
-        print('kmeaning')
-        kmeans()
+    print('kmeaning')
+    kmeans()
