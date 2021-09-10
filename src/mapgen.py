@@ -14,56 +14,11 @@ import numpy as np
 import math
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
-from sklearn.cluster import DBSCAN
 from sklearn import metrics
 from scipy import signal as sig
 
 
 soften_edges = False
-run_dbscan = False
-
-# Initial source for dbscan pulled from the following source
-# https://scikit-learn.org/stable/auto_examples/cluster/plot_dbscan.html
-# modifications made as necessary.
-def dbscan(): # Currently in work
-    # In case the code is run with or without a parameter, cover these two
-    in_img = plt.imread(sys.argv[1])[:,:,:3]
-
-    # Reshape the input image to allow it to run through kmeans
-    img = np.reshape(in_img,(len(in_img)*len(in_img[0]),len(in_img[0][0])))
-    # Compute DBSCAN
-    db = DBSCAN(eps=0.3, min_samples=10).fit(img)
-    core_samples_mask = np.zeros_like(db.labels_, dtype=bool)
-    core_samples_mask[db.core_sample_indices_] = True
-    labels = db.labels_
-
-    # Number of clusters in labels, ignoring noise if present.
-    n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0)
-    n_noise_ = list(labels).count(-1)
-
-    print(np.amax(labels))
-
-    # Black removed and is used for noise instead.
-    unique_labels = set(labels)
-    colors = [plt.cm.Spectral(each)
-            for each in np.linspace(0, 1, len(unique_labels))]
-    for k, col in zip(unique_labels, colors):
-        if k == -1:
-            # Black used for noise.
-            col = [0, 0, 0, 1]
-
-        class_member_mask = (labels == k)
-
-        xy = img[class_member_mask & core_samples_mask]
-        plt.plot(xy[:, 0], xy[:, 1], 'o', markerfacecolor=tuple(col),
-                markeredgecolor='k', markersize=14)
-
-        xy = img[class_member_mask & ~core_samples_mask]
-        plt.plot(xy[:, 0], xy[:, 1], 'o', markerfacecolor=tuple(col),
-                markeredgecolor='k', markersize=6)
-
-    plt.title('Estimated number of clusters: %d' % n_clusters_)
-    plt.show()
 
 def kmeans():
     new_color = [[162/255,197/255,220/255],[140/255,197/255,220/255],[0.337,0.596,0.345]]
@@ -131,9 +86,5 @@ def kmeans():
     plt.show()
 
 if __name__ == '__main__':
-    if run_dbscan == True:
-        print('dbscanning')
-        dbscan()
-    else:
-        print('kmeaning')
-        kmeans()
+    print('kmeaning')
+    kmeans()
