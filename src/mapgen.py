@@ -22,7 +22,10 @@ from scipy import signal as sig
 soften_edges = False
 run_dbscan = False
 
-def dbscan():
+# Initial source for dbscan pulled from the following source
+# https://scikit-learn.org/stable/auto_examples/cluster/plot_dbscan.html
+# modifications made as necessary.
+def dbscan(): # Currently in work
     # In case the code is run with or without a parameter, cover these two
     in_img = plt.imread(sys.argv[1])[:,:,:3]
 
@@ -39,21 +42,6 @@ def dbscan():
     n_noise_ = list(labels).count(-1)
 
     print(np.amax(labels))
-
-    #print('Estimated number of clusters: %d' % n_clusters_)
-    #print('Estimated number of noise points: %d' % n_noise_)
-    #print("Homogeneity: %0.3f" % metrics.homogeneity_score(labels_true, labels))
-    #print("Completeness: %0.3f" % metrics.completeness_score(labels_true, labels))
-    #print("V-measure: %0.3f" % metrics.v_measure_score(labels_true, labels))
-    #print("Adjusted Rand Index: %0.3f"
-        #% metrics.adjusted_rand_score(labels_true, labels))
-    #print("Adjusted Mutual Information: %0.3f"
-        #% metrics.adjusted_mutual_info_score(labels_true, labels))
-    #print("Silhouette Coefficient: %0.3f"
-        #% metrics.silhouette_score(X, labels))
-
-    # #############################################################################
-    # Plot result
 
     # Black removed and is used for noise instead.
     unique_labels = set(labels)
